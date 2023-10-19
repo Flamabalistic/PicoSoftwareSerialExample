@@ -15,11 +15,11 @@
 class SoftwareSerial : public HardwareSerial
 {
 public:
-    SoftwareSerial(int txPin = -1, int rxPin = -1, PIO pio = pio1, uint stateMachineRxIndex = 0, uint stateMachineTxIndex = 1)
+    SoftwareSerial(int txPin = -1, int rxPin = -1, uint stateMachineRxIndex = 0, uint stateMachineTxIndex = 1, PIO pio = pio1)
     {
         this->pio = pio;
-        this->sm_rx = stateMachineRxIndex;
-        this->sm_tx = stateMachineTxIndex;
+        this->sm_rx = stateMachineRxIndex; // index of the state machine running the rx program
+        this->sm_tx = stateMachineTxIndex; // index of the state machine running the tx program
         this->tx = txPin;
         this->rx = rxPin;
     }
@@ -108,6 +108,8 @@ protected:
     uint sm_tx;
     int offset;
     int peekValue = -1;
+
+    // static uint8_t num_serials = 0; // how many serial objects have been created - used to offset the pio num
 
     void setupRx(uint pin_rx)
     {
